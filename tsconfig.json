@@ -2,13 +2,13 @@
   // compilerOptions编译器相关的选项。比如配置编译成 ES5，模块化使用 commonjs 等。这里的编译配置很多，后面我们会讲解一些常用的配置;
   "compilerOptions": {
     /* 基本选项 */
-    "target": "es2016",                       // 指定 ECMAScript 目标版本: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'（"ESNext"表示最新的ES语法，包括还处在stage X阶段）
+    "target": "ES2020",                    // 指定 ECMAScript 目标版本: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'（"ESNext"表示最新的ES语法，包括还处在stage X阶段）
     "module": "commonjs",                  // 指定生成哪个模块系统代码。枚举值："None"，"CommonJS"， "AMD"，"System"，"UMD"，"ES6"，"ES2015"，"ESNext"。默认值根据–target选项不同而不同，当target设置为ES6时，默认module为"ES6"，否则为"commonjs"
-    // "lib": [],                             // 指定要包含在编译中的库文件
+    "lib": ["DOM", "ES2020.Promise"],      // 指定要包含在编译中的库文件
     "allowJs": true,                       // 允许编译 javascript 文件
     "checkJs": true,                       // 报告 javascript 文件中的错误
-    "jsx": "react-jsx",                     // 指定 jsx 代码的生成: 'preserve', 'react-native', or 'react'
-    "declaration": true,                   // 生成相应的 '.d.ts' 文件
+    "jsx": "react-jsx",                    // 指定 jsx 代码的生成: 'preserve', 'react-native', or 'react'
+    "declaration": false,                   // 生成相应的 '.d.ts' 文件
     "outDir": "./",                        // 指定输出目录
     "rootDir": "./",                       // 用来控制输出目录结构 --outDir.
     "removeComments": true,                // 删除编译后的所有的注释

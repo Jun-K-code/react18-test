@@ -1,4 +1,4 @@
-import './App.css';
+import './assets/style.scss'
 
 function App() {
     return <div>Hello World!</div>;

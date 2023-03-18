@@ -47,8 +47,12 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.css?$/,
-                use: ['style-loader', 'css-loader'], // 解析CSS文件
+                // 当webpack工作时，遇到了以.css或.scss结尾的模块
+                // 使用sass-loader加载解析返回内容交给css-loader来处理
+                // 使用css-loader加载解析返回内容交给style-loader来处理
+                // style-loader可以把css-loader处理后结果，以操作DOM的形式，插入到head标签中，就是内部样式
+                test: /\.(css|scss)?$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
         ],
     },

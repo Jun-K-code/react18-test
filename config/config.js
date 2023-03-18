@@ -17,7 +17,7 @@ module.exports = {
     },
     // 出口必须指定绝对路径
     output: {
-        filename: 'js/[name].[hash].js',
+        filename: 'js/[name].[hash:8].js',
         path: path.resolve(__dirname, '../', 'build'), // 把文件放在当前项目的dist文件夹下
         clean: true,
     },
@@ -53,6 +53,22 @@ module.exports = {
                 // style-loader可以把css-loader处理后结果，以操作DOM的形式，插入到head标签中，就是内部样式
                 test: /\.(css|scss)?$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.(png|jpg|svg|gif|jpeg|webp)$/,
+                type: 'asset/resource', // 类似webpack4使用file-loader实现
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 30 * 1024, // 小于10kb的图片会被base64处理
+                    },
+                },
+                generator: {
+                    // 将图片文件输出到 img 目录中
+                    // 将图片文件命名 [contenthash:8][ext]
+                    // [contenthash:8]: contenthash值取8位
+                    // [ext]: 使用之前的文件扩展名
+                    filename: 'img/[name].[contenthash:8][ext]',
+                },
             },
         ],
     },

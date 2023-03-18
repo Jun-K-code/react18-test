@@ -1,13 +1,23 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ProvidePlugin } = require('webpack');
 
 module.exports = {
     // 项目入口文件
     // entry: './src/index.tsx', // 相对路径
-    entry: path.resolve(__dirname, '../', 'src/index.tsx'), // 绝对路径
+    // entry: path.resolve(__dirname, '../', 'src/index.tsx'), // 绝对路径
+    entry: {
+        chunk: ['react', 'react-dom/client'], // 抽离第三方包
+        // 这里的bundle对应的就是output内filename的name的部分
+        bundle: {
+            // import是用来指定业务代码的入口
+            import: path.resolve(__dirname, '../', 'src/index.tsx'), // 绝对路径
+            dependOn: 'chunk', // 依赖上面的chunk
+        },
+    },
     // 出口必须指定绝对路径
     output: {
-        filename: 'js/bundle.[hash].js',
+        filename: 'js/[name].[hash].js',
         path: path.resolve(__dirname, '../', 'build'), // 把文件放在当前项目的dist文件夹下
         clean: true,
     },
@@ -28,6 +38,8 @@ module.exports = {
                     // .jsx文件需要@babel/preset-react进行预设处理
                     options: { presets: ['@babel/preset-react', '@babel/preset-env'] },
                 },
+                // exclude: /node_modules/ 让node_modules中的代码不参与打包
+                exclude: /node_modules/,
             },
             {
                 test: /\.(ts|tsx)?$/,
@@ -47,6 +59,9 @@ module.exports = {
             title: 'react18',
             favicon: path.resolve(__dirname, '../', 'public/favicon.ico'),
             filename: 'index.html',
+        }),
+        new ProvidePlugin({
+            React: path.resolve(__dirname, '../', 'node_modules/react/index.js'),
         }),
     ],
 };

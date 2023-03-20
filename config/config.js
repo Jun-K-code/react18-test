@@ -84,4 +84,12 @@ module.exports = {
             React: path.resolve(__dirname, '../', 'node_modules/react/index.js'),
         }),
     ],
+    resolve: {
+        alias: {
+            // 配置解析src路径
+            '@': path.resolve(__dirname, '../', 'src'),
+        },
+        // 配置允许省略后缀
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    },
 };

@@ -1,5 +1,6 @@
-import './assets/style.scss';
-const test = require('./assets/images/test.jpg');
+import '@/assets/style.scss';
+
+const test = require('@/assets/images/test.jpg');
 
 function App() {
     return (

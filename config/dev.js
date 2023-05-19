@@ -7,6 +7,7 @@ module.exports = {
         port: 8000,
         open: true, // 打包成功后,自动打开浏览器
         client: {
+            // 当出现编译错误或警告时，在浏览器中显示全屏覆盖。
             overlay: {
                 errors: true, // 报错显示
                 warnings: false, // 警告不显示
@@ -24,4 +25,13 @@ module.exports = {
             formatter: 'stylish',
         }),
     ],
+    // 持久化缓存
+    cache: {
+        type: 'filesystem', // 开启持久缓存
+        cacheDirectory: path.resolve(__dirname, '.webpack_cache'), // 指定缓存目录
+        buildDependencies: {
+            config: [__filename], // 添加配置文件作为构建依赖
+        },
+        name: 'development', // 使用固定的缓存名，避免与其他环境冲突
+    },
 };

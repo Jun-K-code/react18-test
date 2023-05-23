@@ -7,8 +7,8 @@ const { ProvidePlugin } = require('webpack');
 //     "path.resolve(__dirname, '../', 'src/index.tsx')",
 //     path.resolve(__dirname, '../', 'src/index.tsx')
 // );
-console.log("path.resolve(__dirname, '../', 'src')", path.resolve(__dirname, '../', 'src'));
-console.log("path.resolve(__dirname, '../')", path.resolve(__dirname, '../'));
+// console.log("path.resolve(__dirname, '../', 'src')", path.resolve(__dirname, '../', 'src'));
+// console.log("path.resolve(__dirname, '../')", path.resolve(__dirname, '../'));
 
 module.exports = {
     // 项目入口文件
@@ -44,12 +44,25 @@ module.exports = {
                 // 当webpack工作时,遇到了以.tsx结尾给模块, 先使用babel-loader进行加载
                 // 当loader加载完后, 还需要使用一些@babel/* 进行语法转化, 转化成ES5代码
                 test: /\.(js|ts|tsx)?$/,
+                // use: [
+                //     'thread-loader',
+                //     {
+                //         loader: 'babel-loader',
+                //         // @babel/preset-env是一个预设(预设是插件的集合), 它可以把ES6中的大部分语法, 转化成ES5; 它并不是转化所有语法, 仅仅是大部分, 个别语法转化不了, 需要单独安装插件.
+                //         // 如果要使用@babel/preset-env, 需要依赖@babel/core, 它是核心包
+                //         // .jsx文件需要@babel/preset-react进行预设处理
+                //         options: { presets: ['@babel/preset-react', '@babel/preset-env'] },
+                //     },
+                // ],
                 use: {
-                    loader: ['thread-loader', 'babel-loader'],
+                    loader: 'babel-loader',
                     // @babel/preset-env是一个预设(预设是插件的集合), 它可以把ES6中的大部分语法, 转化成ES5; 它并不是转化所有语法, 仅仅是大部分, 个别语法转化不了, 需要单独安装插件.
                     // 如果要使用@babel/preset-env, 需要依赖@babel/core, 它是核心包
                     // .jsx文件需要@babel/preset-react进行预设处理
-                    options: { presets: ['@babel/preset-react', '@babel/preset-env'] },
+                    options: {
+                        presets: ['@babel/preset-react', '@babel/preset-env'], // 对于antd的引入部分，你可以使用babel-plugin-import来实现按需加载。你需要安装这个插件，然后在babel-loader的options中添加它：
+                        plugins: [['import', { libraryName: 'antd', style: 'css' }]],
+                    },
                 },
                 // exclude: /node_modules/ 让node_modules中的代码不参与打包
                 exclude: /node_modules/,

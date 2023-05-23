@@ -1,4 +1,5 @@
 const EslintPlugin = require('eslint-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     mode: 'development',
@@ -28,7 +29,7 @@ module.exports = {
     // 持久化缓存
     cache: {
         type: 'filesystem', // 开启持久缓存
-        cacheDirectory: path.resolve(__dirname, '.webpack_cache'), // 指定缓存目录
+        cacheDirectory: path.resolve(__dirname, '../', 'webpack_cache'), // 指定缓存目录
         buildDependencies: {
             config: [__filename], // 添加配置文件作为构建依赖
         },

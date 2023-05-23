@@ -9,19 +9,19 @@ module.exports = {
     },
     // 集成airbnb对React代码校验
     extends: [
-        'airbnb',
-        'airbnb/hooks',
+        // 'airbnb',
+        // 'airbnb/hooks',
         'plugin:react/jsx-runtime',
         'plugin:import/recommended',
         'plugin:import/typescript',
     ],
     plugins: ['eslint-plugin-import'],
     parser: '@typescript-eslint/parser',
-    parserOptions: {
-        project: ['./tsconfig.json'],
-        tsconfigRootDir: __dirname,
-        sourceType: 'module',
-    },
+    // parserOptions: {
+    //     project: ['./tsconfig.json'],
+    //     tsconfigRootDir: __dirname,
+    //     sourceType: 'module',
+    // },
     settings: {
         'import/resolver': {
             // typescript: {
@@ -55,5 +55,10 @@ module.exports = {
         'import/no-unresolved': 'off',
         'react/jsx-indent': 'off',
         indent: 'off',
+        'no-unused-vars': 'warn',
+        'react/function-component-definition': 'off',
+        'import/prefer-default-export': 'off',
+        'arrow-body-style': 'off',
+        'import/no-extraneous-dependencies': 'off',
     },
 };

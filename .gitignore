@@ -1,26 +1,27 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Font-end
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+/Fe/node_modules
+/Fe/.pnp
+/Fe/.pnp.js
 
 # testing
-/coverage
+/Fe/coverage
 
 # production
-/build
+/Fe/build
 
 # development
-/webpack_cache
+/Fe/webpack_cache
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+/Fe/.DS_Store
+/Fe/.env.local
+/Fe/.env.development.local
+/Fe/.env.test.local
+/Fe/.env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+/Fe/npm-debug.log*
+/Fe/yarn-debug.log*
+/Fe/yarn-error.log*

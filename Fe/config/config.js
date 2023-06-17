@@ -2,6 +2,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
 // console.log(
 //     "path.resolve(__dirname, '../', 'src/index.tsx')",
@@ -62,6 +64,7 @@ module.exports = {
                     options: {
                         presets: ['@babel/preset-react', '@babel/preset-env'], // 对于antd的引入部分，你可以使用babel-plugin-import来实现按需加载。你需要安装这个插件，然后在babel-loader的options中添加它：
                         plugins: [['import', { libraryName: 'antd', style: 'css' }]],
+                        cacheDirectory: true,
                     },
                 },
                 // exclude: /node_modules/ 让node_modules中的代码不参与打包
@@ -79,6 +82,7 @@ module.exports = {
                 // style-loader可以把css-loader处理后结果，以操作DOM的形式，插入到head标签中，就是内部样式
                 test: /\.(css|scss)?$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
+                exclude: /node_modules/,
             },
             {
                 test: /\.(png|jpg|svg|gif|jpeg|webp)$/,
@@ -95,6 +99,7 @@ module.exports = {
                     // [ext]: 使用之前的文件扩展名
                     filename: 'img/[name].[contenthash:8][ext]',
                 },
+                exclude: /node_modules/,
             },
         ],
     },
@@ -110,6 +115,7 @@ module.exports = {
         new ProvidePlugin({
             React: path.resolve(__dirname, '../', 'node_modules/react/index.js'),
         }),
+        new BundleAnalyzerPlugin(),
     ],
     resolve: {
         alias: {
@@ -121,6 +127,26 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     optimization: {
+        minimize: true, // 是否进行代码压缩
+        minimizer: [
+            new TerserPlugin({
+                // 压缩js
+                // extractComments: false, // 不将注释提取到单独的文件中
+                terserOptions: {
+                    //     compress: {
+                    //         // 删除无用代码
+                    //         unused: true,
+                    //         // 删除console
+                    //         drop_console: true,
+                    //         // 移除无用的代码
+                    //         dead_code: true,
+                    //         // 移除无用的代码
+                    //         drop_debugger: true,
+                    //     },
+                },
+                minify: TerserPlugin.swcMinify,
+            }),
+        ],
         splitChunks: {
             chunks: 'all', // 这表明将选择哪些 chunk 进行优化。当提供一个字符串，有效值为 all，async 和 initial。设置为 all 可能特别强大，因为这意味着 chunk 可以在异步和非异步 chunk 之间共享。但是，这也可能导致很多不必要的请求。建议只选择 initial 或 async。默认为 async。
 
@@ -128,6 +154,11 @@ module.exports = {
 
             // 缓存组
             cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
                 // 打包第三方库
                 // 这个缓存组用于打包React和Redux这些第三方库的基础代码。它使用了一个正则表达式来匹配模块的上下文路径，如果路径中包含'react'或'redux'，则将其归入该缓存组。这个缓存组的chunks配置为'initial'，表示仅包括初始加载的chunk。优先级为10，表示这个缓存组的优先级较高。
                 reactBase: {
